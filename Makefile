@@ -2,7 +2,7 @@
 SHELL := /bin/bash
 SRC = $(wildcard nbs/*.ipynb)
 
-all: nbdev2 docexp
+all: nbdev2 docs
 
 nbdev2: $(SRC)
 	nbprocess_export
@@ -10,6 +10,14 @@ nbdev2: $(SRC)
 
 sync:
 	nbdev_update_lib
+
+docs: docexp
+	cd docusaurus/
+	npm run build
+	cd ..
+	rm -rf docs
+	mv docusaurus/build docs
+	cp docs_src/CNAME docs/
 
 .PHONY: docexp
 docexp:
